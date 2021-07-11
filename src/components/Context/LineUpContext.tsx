@@ -6,7 +6,7 @@ export type GlobalContent = {
   setLineUp: (c: Object) => void;
 };
 export const MyGlobalContext = createContext<GlobalContent>({
-  lineUp: null,
+  lineUp: [],
   setLineUp: () => {},
 });
 export const useGlobalContext = () => useContext(MyGlobalContext);

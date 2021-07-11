@@ -27,8 +27,8 @@ export interface Status {
   message: String;
 }
 
-export interface RowProps {
-  label: String;
-  data: void | Info | undefined;
-  color: String;
-}
+// export interface RowProps {
+//   label: String;
+//   data: void | Info | undefined;
+//   color: String;
+// }

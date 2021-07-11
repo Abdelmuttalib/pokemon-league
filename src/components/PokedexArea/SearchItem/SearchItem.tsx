@@ -1,50 +1,22 @@
 import React from "react";
-import { PokemonData, Info, RowProps } from "../../../interfaces/interfaces";
+import { PokemonData } from "../../../interfaces/interfaces";
 import { useGlobalContext } from "../../Context/LineUpContext";
+import InfoRow from "./InfoRow/InfoRow";
+import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   pokemonData: PokemonData;
 }
 
-const InfoRow = ({ label, data, color }: RowProps) => {
-  interface PropertyProps {
-    property: String;
-    value?: String | Number;
-  }
-
-  const Property = ({ property, value }: PropertyProps) => {
-    return (
-      <span className="bg-gray-200 py-1 px-3 rounded-full text-base">
-        <span className=" text-gray-500 font-semibold">{property}</span>
-        <span className="ml-1 bg-gray-200 text-pokeRed font-semibold">
-          {value}
-        </span>
-      </span>
-    );
-  };
-
-  return (
-    <div
-      className={` ${
-        color === "w" ? "bg-white" : "bg-gray-50"
-      }px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 justify-center items-start align-bottom`}
-    >
-      <dt className="text-sm font-medium text-gray-500">{label}</dt>
-      <dd className="text-sm text-gray-900 sm:mt-0 sm:col-span-2 flex flex-wrap gap-1">
-        {data.map((ability: Info, index: Number) =>
-          ability.value == null ? (
-            <Property property={ability.label} />
-          ) : (
-            <Property property={ability.label} value={ability.value} />
-          )
-        )}
-      </dd>
-    </div>
-  );
-};
-
 const SearchItem = ({ pokemonData }: Props) => {
   const { lineUp, setLineUp } = useGlobalContext();
+
+  const updateLineUp = () => {
+    lineUp != undefined
+      ? setLineUp([...lineUp, pokemonData])
+      : setLineUp([pokemonData]);
+  };
+
   return (
     <div className="flex w-full h-80 bg-white justify-start items-center">
       {/* Pokemon Info */}
@@ -57,37 +29,43 @@ const SearchItem = ({ pokemonData }: Props) => {
                 src={pokemonData.img.toString()}
                 alt={`The ${pokemonData.name} Pokemon`}
               />
-              <p className="text-xl leading-6 font-medium text-gray-900">
+              <p className="text-2xl leading-6 font-semibold text-gray-900">
                 {pokemonData.name}
               </p>
             </div>
             <div className="w-full">
               <InfoRow
+                key={uuidv4()}
                 label="Abilities"
                 data={pokemonData.abilities}
                 color="g"
               />
-              <InfoRow label="Stats" data={pokemonData.stats} color="w" />
-              {/* <InfoRow label="Moves" data={pokemonData.moves} color="g" /> */}
+              <InfoRow
+                key={uuidv4()}
+                label="Stats"
+                data={pokemonData.stats}
+                color="w"
+              />
+              {/* <InfoRow key={uuidv4()} label="Moves" data={pokemonData.moves} color="g" /> */}
 
-              {/* <InfoRow
+              {/* <InfoRow key={uuidv4()}
                 label="Held Items"
                 data={}
                 color="w"
               />
-              <InfoRow label="Type" data="{} color="g" /> */}
-              {/* <InfoRow label="Species" data={} color="w" /> */}
+              <InfoRow key={uuidv4()} label="Type" data="{} color="g" /> */}
+              {/* <InfoRow key={uuidv4()} label="Species" data={} color="w" /> */}
             </div>
           </div>
           <div className="border-t border-gray-100">
             <dl>
               <div className="bg-white px-3 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Actions</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <dd className="mt-1 text-gray-900 sm:mt-0 sm:col-span-2">
                   <button
                     type="submit"
-                    className="inline-flex shadow-xl flex-grow text-pokeYellow w-full h-full font-bold justify-center py-2 px-4 border border-transparent text-md rounded-md bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
-                    onClick={() => setLineUp([...lineUp, pokemonData])}
+                    className="inline-flex shadow-xl flex-grow text-pokeRed  w-full h-full font-black text-lg tracking-normal bold justify-center py-2 px-4 border border-transparent text-md rounded-md bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
+                    onClick={() => updateLineUp()}
                   >
                     + ADD POKEMON TO LINE UP
                   </button>

@@ -33,22 +33,22 @@ const Pokedex = () => {
 
         function setvalues(property: String): Info | void {
           var arr = eval(`all${property}`);
-          var final = arr.map((el: any, index: Number) => {
-            if (index < 6 && el != null && el != undefined) {
+          var final = arr.map((element: any, index: Number) => {
+            if (index < 6 && element != null && element != undefined) {
               var newInstance: Info;
               if (property === "stats") {
                 newInstance = {
-                  label: eval(`el.${property.slice(0, -1)}.name`),
-                  value: el.base_stat,
+                  label: eval(`element.${property.slice(0, -1)}.name`),
+                  value: element.base_stat,
                 };
               } else {
                 if (property === "ability") {
                   newInstance = {
-                    label: eval(`el.${property}.name`),
+                    label: eval(`element.${property}.name`),
                   };
                 } else {
                   newInstance = {
-                    label: eval(`el.${property.slice(0, -1)}.name`),
+                    label: eval(`element.${property.slice(0, -1)}.name`),
                   };
                 }
               }
@@ -96,7 +96,7 @@ const Pokedex = () => {
 
   return (
     <div className="bg-white w-full h-full flex flex-col">
-      <div className="w-full h-14 bg-gray-900 text-pokeRed text-3xl tracking-tight font-semibold rounded-none flex justify-center text-center items-center">
+      <div className="w-full h-14 bg-gray-900 text-pokeYellow text-2xl tracking-tight font-semibold rounded-none flex justify-center text-center items-center">
         Pokedex Area
       </div>
       <div className="shadow overflow-hidden sm:rounded-md bg-gray-50 rounded-none">
@@ -138,7 +138,11 @@ const Pokedex = () => {
         </div>
       </div>
       {/* Search Result */}
-      {loading == true && <h2>Loading...</h2>}
+      {loading == true && (
+        <h2 className="mx-auto text-2xl font-semibold text-opacity-70">
+          Loading...
+        </h2>
+      )}
       {pokemonData != undefined && <SearchItem pokemonData={pokemonData} />}
     </div>
   );
